@@ -40,7 +40,7 @@ End If
 '-------------------------------------------
 ' キーデータを探す
 '-------------------------------------------
-Function GetKeyData( Key As String ,Optional KeyCollum As Long = 1 , Optional DataOfs As Long = 1) As String
+Function GetKeyData( Key As String ,Optional KeyCollum As Integer = 1 , Optional DataOfs As Integer = 1) As String
 	If Not SearchConfigSheet Then
 		GetKeyData = ""
 		Exit Function

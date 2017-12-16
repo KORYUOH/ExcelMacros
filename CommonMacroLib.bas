@@ -10,6 +10,15 @@ Attribute VB_Name = "CommonMacroLib"
 Option Explicit
 
 '-------------------------------------------
+' バッチ起動のコマンドプロンプトの表示状態
+'-------------------------------------------
+Public Const CMD_HIDE As Integer = 0    ' 非表示
+Public Const CMD_NORMAL As Integer = 1  ' 通常
+Public Const CMD_MINIMUM As Integer = 2 ' 最小化
+Public Const CMD_MAXIMUM As Integer = 3 ' 最大化
+
+
+'-------------------------------------------
 ' シートが有るか
 ' 検索ブック : book
 ' 検索シート名 : sheetName
@@ -50,14 +59,6 @@ Public Function GetMaxRow( Sheet As WorkSheet , Optional Columns As Long = 1 ) A
 End Function
 
 '-------------------------------------------
-' バッチ起動のコマンドプロンプトの表示状態
-'-------------------------------------------
-Public Const CMD_HIDE As Integer = 0    ' 非表示
-Public Const CMD_NORMAL As Integer = 1  ' 通常
-Public Const CMD_MINIMUM As Integer = 2 ' 最小化
-Public Const CMD_MAXIMUM As Integer = 3 ' 最大化
-
-'-------------------------------------------
 ' バッチの実行
 ' ファイルへのパス : FilePath
 ' 終了待ちをするか : bSync [省略可能] True
@@ -72,6 +73,11 @@ Public Sub ExecBatch( FilePath As String , Optional bSync As Boolean = True , Op
 	Set Cmd = Nothing
 End Sub
 
+'-------------------------------------------
+' 相対パスから絶対パスを作成する
+' 相対パス : RelativePath
+' 基本パス : RootPath[ 省略時インポートブック ]
+'-------------------------------------------
 Public Function GetAbsFilePath( RelativePath As String , Optional RootPath As String = "" ) As String
 	Dim Path As String
 	If Len(RootPath) > 0 Then
@@ -90,12 +96,18 @@ Public Function GetAbsFilePath( RelativePath As String , Optional RootPath As St
 	Set FSO = Nothing
 End Function
 
+'-------------------------------------------
+' フォーカス状態記録用構造体
+'-------------------------------------------
 Private Type FocusSettings
 	Updateing As Boolean
 	Events As Boolean
 	Calc As Integer
 End Type
 
+'-------------------------------------------
+' フォーカス状態にするプロパティ
+'-------------------------------------------
 Property Let Trans( ByVal Flag As Boolean )
 	With Application
 		.ScreenUpdate = Not Flag
@@ -104,7 +116,10 @@ Property Let Trans( ByVal Flag As Boolean )
 	End With
 End Property
 
-Sub Focus( InSet As FocusSettings )
+'-------------------------------------------
+' フォーカス構造体によってフォーカスにする
+'-------------------------------------------
+Private Sub Focus( InSet As FocusSettings )
 
 	With Application
 		.ScreenUpdate = InSet.Updateing
@@ -114,6 +129,10 @@ Sub Focus( InSet As FocusSettings )
 
 End Sub
 
+'-------------------------------------------
+' フォーカス状態にする
+' 戻り値 : 前のフォーカス状態
+'-------------------------------------------
 Function EnableFocus() As FocusSettings
 	With Application
 		EnableFocus.Updateing = .ScreenUpdateing
@@ -125,6 +144,10 @@ Function EnableFocus() As FocusSettings
 	End With
 End Function
 
+'-------------------------------------------
+' フォーカス状態を解除する
+' 前の状態 : なしの場合は指定値に自動変更
+'-------------------------------------------
 Sub DisableFocus( Optional Before As FocusSettings = Nothing )
 	With Application
 		If Before Is Nothing Then
