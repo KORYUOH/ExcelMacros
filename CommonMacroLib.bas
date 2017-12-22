@@ -3,7 +3,7 @@
 ' Brief : 汎用マクロモジュール
 ' Author : KORYUOH
 ' Create : 2017/12/14
-' Update : 2017/12/14
+' Update : 2017/12/22
 ' Version : 0.01
 '================================================================
 Attribute VB_Name = "CommonMacroLib"
@@ -161,6 +161,25 @@ Sub DisableFocus( Optional Before As FocusSettings = Nothing )
 		End If
 	End With
 End Sub
+
+'-------------------------------------------
+' ファイルの有無を確認する
+' ファイルパス : FilePath
+'-------------------------------------------
+Public Function IsExistFile( FilePath As String ) As Boolean
+	Dim Path As String
+	If Left( FilePath , 1 ) = "." Then
+		Path = GetAbsFilePath( FilePath )
+	Else
+		Path = FilePath
+	End If
+
+	With CreateObject("Scripting.FileSystemObject")
+		IsExistFile = .IsFileExists( Path )
+	End With
+
+End Function
+
 
 
 
