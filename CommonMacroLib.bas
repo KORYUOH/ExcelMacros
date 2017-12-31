@@ -28,12 +28,13 @@ Public Function IsExistSheet( book As Workbook , sheetName As String ) As Boolea
 	IsExistSheet = False
 	
 	With book
-	For i = 1 To .Sheets.Count
-		If .Sheets(i).Name = sheetName Then
-			IsExistSheet = True
-			Exit For
-		End If
-	Next i
+		For i = 1 To .Sheets.Count
+			If .Sheets(i).Name = sheetName Then
+				IsExistSheet = True
+				Exit For
+			End If
+		Next i
+	End With
 End Function
 
 '-------------------------------------------
@@ -41,7 +42,7 @@ End Function
 ' 対象シート : Sheet
 ' 対象列 : Columns [省略可能]
 '-------------------------------------------
-Public Function GetMaxRow( Sheet As WorkSheet , Optional Columns As Long = 1 ) As Integer
+Public Function GetMaxRow( Sheet As WorkSheet , Optional Columns As Integer = 1 ) As Integer
 
 	If Sheet Is Nothing Then
 		GetMaxRow = -1
@@ -54,7 +55,7 @@ Public Function GetMaxRow( Sheet As WorkSheet , Optional Columns As Long = 1 ) A
 	End If
 
 	With Sheet
-		.Cells( .Row.Count , Columns ).End(xlUp).Row
+		GetMaxRow = .Cells( .Rows.Count , Columns ).End(xlUp).Row
 	End With
 End Function
 
@@ -96,71 +97,17 @@ Public Function GetAbsFilePath( RelativePath As String , Optional RootPath As St
 	Set FSO = Nothing
 End Function
 
-'-------------------------------------------
-' フォーカス状態記録用構造体
-'-------------------------------------------
-Private Type FocusSettings
-	Updateing As Boolean
-	Events As Boolean
-	Calc As Integer
-End Type
 
 '-------------------------------------------
 ' フォーカス状態にするプロパティ
 '-------------------------------------------
-Property Let Trans( ByVal Flag As Boolean )
+Property Let Focus( ByVal Flag As Boolean )
 	With Application
 		.ScreenUpdate = Not Flag
 		.EnableEvents = Not Flag
-		.Calculation = IIf( Flag , xlCalclationManual , xlCalclationAutomatic )
+		.Calculation = IIf( Flag , xlCalculationManual , xlCalculationAutomatic )
 	End With
 End Property
-
-'-------------------------------------------
-' フォーカス構造体によってフォーカスにする
-'-------------------------------------------
-Private Sub Focus( InSet As FocusSettings )
-
-	With Application
-		.ScreenUpdate = InSet.Updateing
-		.EnableEvents = InSet.Events
-		.Calculation = InSet.Calc
-	End With
-
-End Sub
-
-'-------------------------------------------
-' フォーカス状態にする
-' 戻り値 : 前のフォーカス状態
-'-------------------------------------------
-Function EnableFocus() As FocusSettings
-	With Application
-		EnableFocus.Updateing = .ScreenUpdateing
-		EnableFocus.Events = .EnableEvents
-		EnableFocus.Calc = .Calculation
-		.ScreenUpdate = False
-		.EnableEvents = False
-		.Calculation = xlCalclationManual
-	End With
-End Function
-
-'-------------------------------------------
-' フォーカス状態を解除する
-' 前の状態 : なしの場合は指定値に自動変更
-'-------------------------------------------
-Sub DisableFocus( Optional Before As FocusSettings = Nothing )
-	With Application
-		If Before Is Nothing Then
-			.ScreenUpdateing = True
-			.EnableEvents = True
-			.Calculation = xlCalclationAutomatic
-		Else
-			.ScreenUpdateing = Before.Updateing
-			.EnableEvents = Before.Events
-			.Calculation = Before.Calc
-		End If
-	End With
-End Sub
 
 '-------------------------------------------
 ' ファイルの有無を確認する

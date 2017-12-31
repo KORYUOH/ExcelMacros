@@ -35,7 +35,7 @@ Function SearchConfigSheet() As Boolean
 		End If
 	Next sheet
 
-End If
+End Function
 
 '-------------------------------------------
 ' キーデータを探す
@@ -46,17 +46,60 @@ Function GetKeyData( Key As String ,Optional KeyCollum As Integer = 1 , Optional
 		Exit Function
 	End If
 
-	Dim MaxRow As Integer
+	Dim KeyRow AS Integer
+	KeyRow = GetKeyRow( Key , KeyCollum )
+	If KeyRow < 0 Then
+		GetKeyData = ""
+		Exit Function
+	End If
+
+	With Config
+		GetKeyData = .Cells( KeyRow , KeyCollum + DataOfs )
+	End With
+
+End Function
+
+Function GetKeyRow(Key As String , Optional KeyCollum AS Integer = 1) As Integer
+
+	If Not SearchConfigSheet Then
+		GetKeyRow = -1
+		Exit Function
+	End If
+
+	Dim MaxRow AS Integer
 	MaxRow = GetMaxRow( Config , KeyCollum )
-	Dim Itr As Integer
+	Dim Itr AS Integer
 	For Itr = 1 To MaxRow
 		With Config
-			If .Cells( Itr , KeyCollum) = Key Then
-				GetKeyData = .Cells( Itr , KeyCollum + DataOfs )
-				Exit For
+			If .Cells( Itr , KeyCollum ) = Key Then
+				GetKeyRow = Itr
+				Exit Function
 			End If
 		End With
 	Next Itr
 End Function
+
+Function GetKeyDataNum( Key As String , Optional KeyCollum As Integer = 1) As Integer
+
+	If Not SearchConfigSheet Then
+		GetKeyDataNum = -1
+		Exit Function
+	End If
+
+	Dim KeyRow AS Integer
+	KeyRow = GetKeyRow( Key , KeyCollum )
+
+	If KeyRow < 0 Then
+		GetKeyDataNum = -1
+		Exit Function
+	End If
+
+	With Config
+		GetKeyDataNum = .Cells( KeyRow , .Columns.Count ).End(xlLeft).Row
+	End With
+
+End Function
+
+
 
 

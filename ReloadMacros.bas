@@ -3,17 +3,50 @@
 ' Brief : 
 ' Author : KORYUOH
 ' Create : 2017/12/14
-' Update : 2017/12/18
+' Update : 2017/12/31
 ' Version : 0.01
 '================================================================
 Attribute VB_Name = "ReloadMacros"
 Option Explicit
 
+Private Const ROOT As String = "MacroRoot"
+Private Const IMPORT_MACRO_KEY As String = "_Import"
 
 '-------------------------------------------
 ' –{‘Ì
 '-------------------------------------------
 Public Sub ReloadMacro()
+
+	If Not SearchConfigSheet Then
+		MsgBox "Not Found Config Sheet"
+		Exit Sub
+	End If
+
+	Dim MacroRoot As String
+	MacroRoot = GetKeyData( ROOT )
+
+	Dim MacroFolder As String
+	If Left(MacroRoot,1) = "." Then
+		MacroFolder = GetAbsFilePath(MacroRoot)
+	Else
+		MacroFolder = GetAbsFilePath("", MacroRoot )
+	End If
+
+	Dim DataNum As Integer
+
+	DataNum = GetKeyDataNum( IMPORT_MACRO_KEY )
+	if DataNum < 0 Then
+		MsgBox "Not Found Key : " & IMPORT_MACRO_KEY
+		Exit Sub
+	End If
+
+	Dim Itr As Integer
+	Dim FileName AS String
+	For Itr = 1 To DataNum
+		FileName = GetKeyData( IMPORT_MACRO_KEY , DataOfs:=Itr )
+		Debug.print FileName
+	Next Itr
+
 End Sub
 
 
