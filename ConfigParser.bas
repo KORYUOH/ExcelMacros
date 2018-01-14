@@ -3,8 +3,8 @@
 ' Brief : コンフィグシートパーサー
 ' Author : KORYUOH
 ' Create : 2017/12/14
-' Update : 2017/12/14
-' Version : 0.01
+' Update : 2018/01/14
+' Version : 0.11
 '================================================================
 Attribute VB_Name = "ConfigParser"
 Option Explicit
@@ -59,6 +59,28 @@ Function GetKeyData( Key As String ,Optional KeyCollum As Integer = 1 , Optional
 
 End Function
 
+'-------------------------------------------
+' キーが存在するか調べる
+'-------------------------------------------
+Function HasKey(Key As String , Optional KeyCollum AS Integer = 1) As Boolean
+
+	HasKey = False
+
+	If Not SearchConfigSheet Then
+		Exit Function
+	End If
+
+	If GetKeyRow( Key , KeyCollum ) > 0 Then
+		HasKey = True
+	End If
+
+End Function
+
+
+
+'-------------------------------------------
+' キーが有る行の取得
+'-------------------------------------------
 Function GetKeyRow(Key As String , Optional KeyCollum AS Integer = 1) As Integer
 
 	If Not SearchConfigSheet Then
@@ -79,6 +101,9 @@ Function GetKeyRow(Key As String , Optional KeyCollum AS Integer = 1) As Integer
 	Next Itr
 End Function
 
+'-------------------------------------------
+' キーデータの個数を取得
+'-------------------------------------------
 Function GetKeyDataNum( Key As String , Optional KeyCollum As Integer = 1) As Integer
 
 	If Not SearchConfigSheet Then
@@ -95,7 +120,7 @@ Function GetKeyDataNum( Key As String , Optional KeyCollum As Integer = 1) As In
 	End If
 
 	With Config
-		GetKeyDataNum = .Cells( KeyRow , .Columns.Count ).End(xlLeft).Row
+		GetKeyDataNum = .Cells( KeyRow , .Columns.Count ).End(xlToLeft).Row - KeyCollum
 	End With
 
 End Function

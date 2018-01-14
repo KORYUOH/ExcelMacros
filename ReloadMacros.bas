@@ -1,10 +1,11 @@
 '================================================================
 ' vim:fenc=cp932:ft=vb
-' Brief : 
+' Brief  : É}ÉNÉççƒì«Ç›çûÇ›
 ' Author : KORYUOH
+' github : KORYUOH/ExcelMacros
 ' Create : 2017/12/14
-' Update : 2017/12/31
-' Version : 0.01
+' Update : 2018/01/14
+' Version : 0.11
 '================================================================
 Attribute VB_Name = "ReloadMacros"
 Option Explicit
@@ -32,6 +33,10 @@ Public Sub ReloadMacro()
 		MacroFolder = GetAbsFilePath("", MacroRoot )
 	End If
 
+	if not Right( MacroFolder , 1 ) = "\" then
+		MacroFolder = MacroFolder & "\"
+	End If
+
 	Dim DataNum As Integer
 
 	DataNum = GetKeyDataNum( IMPORT_MACRO_KEY )
@@ -44,7 +49,7 @@ Public Sub ReloadMacro()
 	Dim FileName AS String
 	For Itr = 1 To DataNum
 		FileName = GetKeyData( IMPORT_MACRO_KEY , DataOfs:=Itr )
-		Debug.print FileName
+		IncludeMacro MacroFolder & FileName
 	Next Itr
 
 End Sub
@@ -85,7 +90,7 @@ Private Sub IncludeMacro( FilePath As String )
 	Dim Path As String
 	Path = GetAbsFilePath( FileName , Root )
 	
-	ThisWorkbook.VBProject.Import Path
+	ThisWorkbook.VBProject.VBComponents.Import Path
 
 End Sub
 
