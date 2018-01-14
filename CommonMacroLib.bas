@@ -2,9 +2,10 @@
 ' vim:fenc=cp932:ft=vb
 ' Brief : 汎用マクロモジュール
 ' Author : KORYUOH
+' github : KORYUOH/ExcelMacros
 ' Create : 2017/12/14
-' Update : 2017/12/22
-' Version : 0.01
+' Update : 2018/01/14
+' Version : 0.11
 '================================================================
 Attribute VB_Name = "CommonMacroLib"
 Option Explicit
