@@ -38,6 +38,20 @@ Public Function IsExistSheet( book As Workbook , sheetName As String ) As Boolea
 End Function
 
 '-------------------------------------------
+' ブックが開かれているか
+'-------------------------------------------
+Function IsOpenedBook( BookName As String ) as Boolean
+	IsOpenedBook = False
+	Dim wb As Workbook
+	For Each wb In Workbooks
+		if UCase( wb.Name ) = UCase( BookName ) Then
+			IsOpenedBook = True
+			Exit Function
+		End If
+	Next wb
+End Function
+
+'-------------------------------------------
 ' シートの最終データ行を取得する
 ' 対象シート : Sheet
 ' 対象列 : Columns [省略可能]
