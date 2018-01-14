@@ -52,6 +52,32 @@ Function IsOpenedBook( BookName As String ) as Boolean
 End Function
 
 '-------------------------------------------
+' ブックを開く
+' 開かれていたらそれを取得する
+'-------------------------------------------
+Function OpenBook( BookName As String , Optional Path As String ThisWorkbook.Path )As Workbook
+	Set OpenBook = Nothing
+	If IsOpenedBook( BookName ) Then
+		Dim wb As Workbook
+		For Each wb In Workbooks
+			If UCase( wb.Name ) = UCase( BookName ) Then
+				Set OpenBook = wb
+				Exit Function
+			End If
+		Next wb
+	End If
+
+	Dim FilePath As String
+	If Not Right( Path , 1 ) = "\" Then
+		FilePath = Path &"\"&BookName
+	Else
+		FilePath = Path & BookName
+	End If
+
+	OpenBook = Workbooks.Open FilePath
+End Function
+
+'-------------------------------------------
 ' シートの最終データ行を取得する
 ' 対象シート : Sheet
 ' 対象列 : Columns [省略可能]
