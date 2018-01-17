@@ -4,7 +4,7 @@
 ' Author : KORYUOH
 ' github : KORYUOH/ExcelMacros
 ' Create : 2017/12/14
-' Update : 2018/01/14
+' Update : 2018/01/18
 ' Version : 0.11
 '================================================================
 Attribute VB_Name = "ConfigParser"
@@ -121,7 +121,7 @@ Function GetKeyDataNum( Key As String , Optional KeyCollum As Integer = 1) As In
 	End If
 
 	With Config
-		GetKeyDataNum = .Cells( KeyRow , .Columns.Count ).End(xlToLeft).Row - KeyCollum
+		GetKeyDataNum = .Cells( KeyRow , .Columns.Count ).End(xlToLeft).Column - KeyCollum
 	End With
 
 End Function
