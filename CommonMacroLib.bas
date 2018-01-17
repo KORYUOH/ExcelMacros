@@ -4,8 +4,8 @@
 ' Author : KORYUOH
 ' github : KORYUOH/ExcelMacros
 ' Create : 2017/12/14
-' Update : 2018/01/14
-' Version : 0.11
+' Update : 2018/01/18
+' Version : 0.12
 '================================================================
 Attribute VB_Name = "CommonMacroLib"
 Option Explicit
@@ -144,7 +144,7 @@ End Function
 '-------------------------------------------
 Property Let Focus( ByVal Flag As Boolean )
 	With Application
-		.ScreenUpdate = Not Flag
+		.ScreenUpdating = Not Flag
 		.EnableEvents = Not Flag
 		.Calculation = IIf( Flag , xlCalculationManual , xlCalculationAutomatic )
 	End With
