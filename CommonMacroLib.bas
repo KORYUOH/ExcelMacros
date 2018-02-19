@@ -4,8 +4,8 @@
 ' Author : KORYUOH
 ' github : KORYUOH/ExcelMacros
 ' Create : 2017/12/14
-' Update : 2018/01/18
-' Version : 0.12
+' Update : 2018/02/19
+' Version : 0.15
 '================================================================
 Attribute VB_Name = "CommonMacroLib"
 Option Explicit
@@ -56,7 +56,7 @@ End Function
 ' ブックを開く
 ' 開かれていたらそれを取得する
 '-------------------------------------------
-Function OpenBook( BookName As String , Optional Path As String ThisWorkbook.Path )As Workbook
+Function OpenBook( BookName As String , Optional Path As String = "." )As Workbook
 	Set OpenBook = Nothing
 	If IsOpenedBook( BookName ) Then
 		Dim wb As Workbook
@@ -69,13 +69,21 @@ Function OpenBook( BookName As String , Optional Path As String ThisWorkbook.Pat
 	End If
 
 	Dim FilePath As String
-	If Not Right( Path , 1 ) = "\" Then
-		FilePath = Path &"\"&BookName
+
+	if Path = "." Then
+		FilePath = ThisWorkbook.Path
 	Else
-		FilePath = Path & BookName
+		FilePath = Path
 	End If
 
-	OpenBook = Workbooks.Open FilePath
+
+	If Not Right( FilePath , 1 ) = "\" Then
+		FilePath = FilePath &"\"&BookName
+	Else
+		FilePath = FilePath & BookName
+	End If
+
+	Set OpenBook = Workbooks.Open ( FilePath )
 End Function
 
 '-------------------------------------------
