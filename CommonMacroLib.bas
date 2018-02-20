@@ -5,7 +5,7 @@
 ' github : KORYUOH/ExcelMacros
 ' Create : 2017/12/14
 ' Update : 2018/02/21
-' Version : 0.20
+' Version : 0.25
 '================================================================
 Attribute VB_Name = "CommonMacroLib"
 Option Explicit
@@ -50,6 +50,16 @@ Function IsOpenedBook( BookName As String ) as Boolean
 			Exit Function
 		End If
 	Next wb
+End Function
+
+'-------------------------------------------
+' ƒtƒ@ƒCƒ‹‚ª‚ ‚é‚©
+'-------------------------------------------
+Function IsExistFile( Path As String ) As Boolean
+	IsExistFile = False
+	If Dir(Path) <> "" Then
+		IsExistFile = True
+	End If
 End Function
 
 '-------------------------------------------
