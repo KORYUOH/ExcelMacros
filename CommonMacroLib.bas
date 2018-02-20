@@ -4,8 +4,8 @@
 ' Author : KORYUOH
 ' github : KORYUOH/ExcelMacros
 ' Create : 2017/12/14
-' Update : 2018/02/19
-' Version : 0.15
+' Update : 2018/02/21
+' Version : 0.20
 '================================================================
 Attribute VB_Name = "CommonMacroLib"
 Option Explicit
@@ -105,6 +105,28 @@ Public Function GetMaxRow( Sheet As WorkSheet , Optional Columns As Integer = 1 
 
 	With Sheet
 		GetMaxRow = .Cells( .Rows.Count , Columns ).End(xlUp).Row
+	End With
+End Function
+
+'-------------------------------------------
+' シートの最終データ列を取得する
+' 対象シート : Sheet
+' 対象列 : Row [省略可能]
+'-------------------------------------------
+Public Function GetMaxColumn( Sheet As WorkSheet , Optional Row As Integer = 1 ) As Integer
+
+	If Sheet Is Nothing Then
+		GetMaxColumn = -1
+		Exit Function
+	End If
+
+	If Row <= 0 Then
+		GetMaxColumn = -1
+		Exit Function
+	End If
+
+	With Sheet
+		GetMaxColumn = .Cells( Row , .Columns.Count ).End(xlToLeft).Row
 	End With
 End Function
 
