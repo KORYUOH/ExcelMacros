@@ -53,16 +53,6 @@ Function IsOpenedBook( BookName As String ) as Boolean
 End Function
 
 '-------------------------------------------
-' ファイルがあるか
-'-------------------------------------------
-Function IsExistFile( Path As String ) As Boolean
-	IsExistFile = False
-	If Dir(Path) <> "" Then
-		IsExistFile = True
-	End If
-End Function
-
-'-------------------------------------------
 ' ブックを開く
 ' 開かれていたらそれを取得する
 '-------------------------------------------
