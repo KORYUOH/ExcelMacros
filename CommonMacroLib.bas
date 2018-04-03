@@ -4,8 +4,8 @@
 ' Author : KORYUOH
 ' github : KORYUOH/ExcelMacros
 ' Create : 2017/12/14
-' Update : 2018/02/21
-' Version : 0.25
+' Update : 2018/04/03
+' Version : 0.28
 '================================================================
 Attribute VB_Name = "CommonMacroLib"
 Option Explicit
@@ -193,7 +193,7 @@ Public Function IsExistFile( FilePath As String ) As Boolean
 	End If
 
 	With CreateObject("Scripting.FileSystemObject")
-		IsExistFile = .IsFileExists( Path )
+		IsExistFile = .FileExists( Path )
 	End With
 
 End Function
