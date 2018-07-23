@@ -4,8 +4,8 @@
 ' Author : KORYUOH
 ' github : KORYUOH/ExcelMacros
 ' Create : 2017/12/14
-' Update : 2018/04/03
-' Version : 0.28
+' Update : 2018/07/23
+' Version : 0.30
 '================================================================
 Attribute VB_Name = "CommonMacroLib"
 Option Explicit
@@ -126,7 +126,7 @@ Public Function GetMaxColumn( Sheet As WorkSheet , Optional Row As Integer = 1 )
 	End If
 
 	With Sheet
-		GetMaxColumn = .Cells( Row , .Columns.Count ).End(xlToLeft).Row
+		GetMaxColumn = .Cells( Row , .Columns.Count ).End(xlToLeft).Column
 	End With
 End Function
 
@@ -198,7 +198,26 @@ Public Function IsExistFile( FilePath As String ) As Boolean
 
 End Function
 
+'-------------------------------------------
+' èâä˙âªÇ≥ÇÍÇΩîzóÒâªí≤Ç◊ÇÈ
+' îzóÒ ary
+'-------------------------------------------
+Public Function IsInitArray( ByRef ary As Variant  ) As Boolean
+	IsInitArray = False
+	if Not IsArray( ary ) Then
+		Exit Function
+	End If
 
+	Dim tmp as Integer
+
+	On Error Goto InitArrayError
+	tmp = LBound(ary)
+	IsInitArray = True
+
+	Exit Function
+InitArrayError:
+	Exit Function
+End Function
 
 
 
