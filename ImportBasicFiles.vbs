@@ -24,6 +24,11 @@ Set PathArray = WScript.Arguments
 Dim FSO
 Set FSO = CreateObject("Scripting.FileSystemObject")
 
+If PathArray.Count = 0 Then
+	WScript.Echo "ExcelファイルをDDするか引数に指定して実行してください"
+	WScript.Quit
+End If
+
 ModuleFolder = FSO.GetFolder(".")
 ' エクセルを表示するか
 ExcelApp.Visible = True
