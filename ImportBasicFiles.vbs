@@ -4,8 +4,8 @@
 ' Author : KORYUOH
 ' github : KORYUOH/ExcelMacros
 ' Create : 2018/07/31
-' Update : 2018/07/31
-' Version : 0.10
+' Update : 2018/09/03
+' Version : 0.15
 '================================================================
 
 '================================================================
@@ -29,7 +29,9 @@ If PathArray.Count = 0 Then
 	WScript.Quit
 End If
 
-ModuleFolder = FSO.GetFolder(".")
+' 同じところにモジュールファイルが有るはず
+ModuleFolder = FSO.getParentFolderName(WScript.ScriptFullName)
+WScript.Echo "ファイルパス : " & ModuleFolder
 ' エクセルを表示するか
 ExcelApp.Visible = True
 ' アラート(警告を表示するか)
@@ -97,6 +99,10 @@ Sub CheckConfigSheet( Book )
 				For ModuleItr = 0 To UBOUND( Modules )
 					.Range(.Cells(4, 2 + ModuleItr) , .Cells(4,2 + ModuleItr) ) = Modules(ModuleItr) & ".bas"
 				Next
+				Dim btn
+				set btn = .Buttons.Add( 127.5 , 10.5 , 105.5 , 30.5 )
+				btn.OnAction = "ReloadMacro"
+				btn.Characters.Text = "ReloadMacro"
 			End With
 		End With
 	End If
